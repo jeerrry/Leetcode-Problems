@@ -12,6 +12,7 @@ class Solution {
             }
         }
         
+        // Validate Anagram
         for(char c : t.toCharArray()){
             if(charFrequency.containsKey(c)){
                 int currentFrequency = charFrequency.get(c) - 1;
