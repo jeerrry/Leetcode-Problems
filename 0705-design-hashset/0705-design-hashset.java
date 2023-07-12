@@ -1,22 +1,48 @@
 class MyHashSet {
-    private final List<Integer> data;
+    private final int size = 1000;
+    private final LinkedList<Integer>[] data;
 
     public MyHashSet() {
-        data = new ArrayList<Integer>();
+        data = new LinkedList[size];
     }
     
     public void add(int key) {
-        if(!contains(key)) {
-            data.add(key);
+        int index = getIndex(key);
+        
+        if(data[index] == null) {
+            data[index] = new LinkedList<Integer>();
         }
+        
+        if(contains(key)) return;
+        
+        data[index].add(key);
+        
     }
     
     public void remove(int key) {
-        data.removeIf(x -> x == key);
+        int index = getIndex(key);
+        
+        if(data[index] == null) {
+            return;
+        }
+        
+        data[index].removeIf(x -> x == key);
     }
     
     public boolean contains(int key) {
-        return data.contains(key);
+        int index = getIndex(key);
+        
+        if(data[index] == null) {
+            return false;
+        }
+        
+        boolean res = data[index].stream().filter(x -> x == key).findFirst().isPresent();
+        
+        return res;
+    }
+    
+    private int getIndex(int key) {
+        return key % size;
     }
 }
 
