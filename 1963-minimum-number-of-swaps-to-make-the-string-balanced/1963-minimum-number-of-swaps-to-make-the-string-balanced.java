@@ -1,7 +1,7 @@
 class Solution {
     public int minSwaps(String s) {
-        double maxOffset = 0;
-        double currentOffset = 0;
+        int maxOffset = 0;
+        int currentOffset = 0;
         
         for(char c : s.toCharArray()) {
             if(c == ']') {
@@ -13,6 +13,6 @@ class Solution {
             maxOffset = Math.max(maxOffset, currentOffset);
         }
         
-        return (int)Math.ceil(maxOffset/2);
+        return (maxOffset + 1) / 2;
     }
 }
