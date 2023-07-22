@@ -5,11 +5,6 @@ class Solution {
             target[c - 'a']+=1;
         }
         
-        String targetStr = "";
-        for(int val : target) {
-            targetStr += val;
-        }
-        
         int pointer1 = 0;
         int pointer2 = 0;
         int[] currentVal = new int[26];
@@ -21,12 +16,7 @@ class Solution {
                 currentVal[c - 'a']++;
             }
             
-            String concatString = "";
-            for(int c : currentVal) {
-                concatString += c;
-            }
-            
-            if(concatString.equals(targetStr)) {
+            if(Arrays.equals(currentVal, target)) {
                 result.add(pointer1);
             }
             
