@@ -4,8 +4,8 @@ class Solution {
         long lastCount = 0;
         long zeroLength = 0;
         
-        for(int i=0; i<nums.length; i++) {
-            if(nums[i] == 0) {
+        for(int val : nums) {
+            if(val == 0) {
                 long oldVal = lastCount;
                 long newVal = oldVal + 1;
                 zeroLength += 1;
