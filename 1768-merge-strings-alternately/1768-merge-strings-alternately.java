@@ -10,8 +10,8 @@ class Solution {
             char a = word1.charAt(pointer1++);
             char b = word2.charAt(pointer2++);
             
-            result.append(a + "");
-            result.append(b + "");
+            result.append(a);
+            result.append(b);
         }
         
         while(pointer1 < word1.length()) {
