@@ -1,6 +1,7 @@
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> result = new ArrayList<>();
+  
         
         Arrays.sort(nums);
         
@@ -22,7 +23,6 @@ class Solution {
                     diff -= val2;
                     diff -= val3;
                     diff -= val4;
-                    
                     if(diff == 0) {
                         var res = new ArrayList<Integer>();
                         res.add(val1);
