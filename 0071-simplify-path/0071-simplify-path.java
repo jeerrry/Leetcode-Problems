@@ -4,10 +4,11 @@ class Solution {
         stack.push("/");
         
         for(int i=0; i<path.length();) {
-            String input = "" + path.charAt(i);
+            StringBuilder input = new StringBuilder();
+            input.append(""+path.charAt(i));
             
             
-            switch(input) {
+            switch(input.toString()) {
                 case "/":
                     if(!stack.peek().equals("/")){
                         if(i != path.length()-1){
@@ -22,20 +23,20 @@ class Solution {
                         char current = path.charAt(i);
                         if(current == '/') break;
                         else {
-                            input = current + input;
+                            input = new StringBuilder(current + input.toString());
                             i++;
                         }
                     }
                     
-                    if(input.equals(".")) {
+                    if(input.toString().equals(".")) {
                         continue;
-                    }else if(input.equals("..")){
+                    }else if(input.toString().equals("..")){
                         if(stack.size() > 1){
                             stack.pop();
                             stack.pop();
                         }
                     }else{
-                        stack.push(input);
+                        stack.push(input.toString());
                     }
                     break;
                 default:
@@ -44,12 +45,12 @@ class Solution {
                         char current = path.charAt(i);
                         if(current == '/') break;
                         else {
-                            input = current + input;
+                            input = new StringBuilder(current + input.toString());
                             i++;
                         }
                     }
                     
-                    stack.push(input);
+                    stack.push(input.toString());
                     break;
             }            
         }
