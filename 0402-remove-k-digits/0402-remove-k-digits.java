@@ -7,6 +7,7 @@ class Solution {
         for(int i=0; i<num.length(); i++) {
             int val = num.charAt(i) - '0';
             if(stack.size() == 0) {
+                if(val == 0) continue;
                 stack.push(val);
             }else{
                 while(stack.size() > 0 && stack.peek() > val){
@@ -14,6 +15,10 @@ class Solution {
                     
                     stack.pop();
                     removed++;
+                }
+                
+                if(stack.size() == 0 && val == 0){
+                    continue;
                 }
                 
                 stack.push(val);
@@ -31,11 +36,7 @@ class Solution {
             result.insert(0, stack.pop() + "");
         }
         
-        while(true && result.length() > 0){
-            int val = result.charAt(0) - '0';
-            if(val > 0) break;
-            result.replace(0, 1, "");
-        }
+     
 
         return result.length() == 0 ? "0" : result.toString();
     }
