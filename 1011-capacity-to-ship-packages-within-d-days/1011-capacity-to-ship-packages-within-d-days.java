@@ -4,7 +4,7 @@ class Solution {
         int high = Arrays.stream(weights).sum();
         
         while(low < high) {
-            int capacity = low + (high - low) / 2;
+            int capacity = (low + high) / 2;
             int maxDays = getDayCount(weights, capacity);
             if(maxDays > days) {
                 low = capacity + 1;
