@@ -1,17 +1,16 @@
 class Solution {
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
-        List<Integer> result = new ArrayList<>();
+        int[] result = new int[spells.length];
         Arrays.sort(potions);
         
-        for(int spell : spells) {
+        for(int i=0; i<spells.length; i++) {
+            int spell = spells[i];
             int count = getPotionCount(potions, spell,success);
             
-            result.add(count);
+            result[i] = count;
         }
         
-        int[] res = result.stream().mapToInt(i -> i).toArray();
-        
-        return res;
+        return result;
     }
     
     private int getPotionCount(int[] potions, int spell, long success) {        
