@@ -28,6 +28,6 @@ class Solution {
             }
         }
         
-        return low >= potions.length ? 0 : potions.length - low;
+        return potions.length - low;
     }
 }
