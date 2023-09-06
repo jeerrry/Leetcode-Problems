@@ -5,7 +5,11 @@ class Solution {
         
         while(left < right) {
             int mid = left + (right - left) / 2;
-            int eatHours = calTime(piles, h, mid);
+            int eatHours = 0;
+            
+            for(int pile : piles) {
+                eatHours += Math.ceil((double)pile/mid);
+            }
             
             if(eatHours <= h) {
                 right = mid;
@@ -15,17 +19,5 @@ class Solution {
         }
         
         return right;
-    }
-    
-    private int calTime(int[] piles, int h, int eat) {
-        int hours = 0;
-        
-        for(int i=0; i<piles.length; i++) {
-            int pile = piles[i];
-            
-            hours += Math.ceil((double)pile/eat);
-        }
-        
-        return hours;
     }
 }
