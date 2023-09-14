@@ -14,7 +14,7 @@ class Solution {
         ListNode secondHalf = reverseLinkedListFromNode(middleNode);
         ListNode firstHalf = head;
         
-        while(firstHalf != null && secondHalf != null) {
+        while(secondHalf != null) {
             ListNode firstTemp = firstHalf;
             ListNode secondTemp = secondHalf;
             firstHalf = firstHalf.next;
