@@ -1,55 +1,29 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-      public TreeNode buildTreeRecursive(int[] preorder, int[] inorder, int pStart, int iStart, int pEnd, int iEnd) {
-    if (pStart == pEnd) return null;
+    int preorderIndex;
+    Map<Integer, Integer> inorderIndexMap;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        preorderIndex = 0;
+        // build a hashmap to store value -> its index relations
+        inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
 
-    TreeNode solution = new TreeNode(preorder[pStart]);
-    if (pStart+1 ==pEnd) return solution;
+        return arrayToTree(preorder, 0, preorder.length - 1);
+    }
 
-    int count = 0;
-    while(inorder[iStart+count] != preorder[pStart]) count++;
-  
-    solution.left = buildTreeRecursive(
-        preorder,
-        inorder,
-        pStart + 1,
-        iStart,
-        pStart + count + 1,
-        iStart + count
-    );
-    
-    solution.right = buildTreeRecursive(
-        preorder,
-        inorder,
-        pStart + count + 1,
-        iStart + count + 1,
-        pEnd,
-        iEnd
-    );
-    
-    return solution;
-}
+    private TreeNode arrayToTree(int[] preorder, int left, int right) {
+        // if there are no elements to construct the tree
+        if (left > right) return null;
 
+        // select the preorder_index element as the root and increment it
+        int rootValue = preorder[preorderIndex++];
+        TreeNode root = new TreeNode(rootValue);
 
-
-public TreeNode buildTree(int[] preorder, int[] inorder) {
-    
-    int n = preorder.length;
-    
-    return buildTreeRecursive(preorder,inorder,0,0,n,n);
-}
+        // build left and right subtree
+        // excluding inorderIndexMap[rootValue] element because it's the root
+        root.left = arrayToTree(preorder, left, inorderIndexMap.get(rootValue) - 1);
+        root.right = arrayToTree(preorder, inorderIndexMap.get(rootValue) + 1, right);
+        return root;
+    }
 }
