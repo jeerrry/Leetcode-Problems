@@ -14,23 +14,42 @@
  * }
  */
 class Solution {
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if(preorder.length == 0 || inorder.length == 0) return null;
-        
-        TreeNode root = new TreeNode(preorder[0]);
-        
-        if(preorder.length == 1) return root;
-        
-        int index = -1;
-	    for(int i=0;i<inorder.length;i++) { if(inorder[i]==preorder[0]) { index=i; break;} }
-        
-        root.left = buildTree(
-            Arrays.copyOfRange(preorder, 1, index + 1),
-            Arrays.copyOfRange(inorder, 0, index));
-        root.right = buildTree(
-            Arrays.copyOfRange(preorder, index + 1, preorder.length),
-            Arrays.copyOfRange(inorder, index + 1, inorder.length));
-        
-        return root;
-     }
+      public TreeNode buildTreeRecursive(int[] preorder, int[] inorder, int pStart, int iStart, int pEnd, int iEnd) {
+    if (pStart == pEnd) return null;
+
+    TreeNode solution = new TreeNode(preorder[pStart]);
+    if (pStart+1 ==pEnd) return solution;
+
+    int count = 0;
+    while(inorder[iStart+count] != preorder[pStart]) count++;
+  
+    solution.left = buildTreeRecursive(
+        preorder,
+        inorder,
+        pStart + 1,
+        iStart,
+        pStart + count + 1,
+        iStart + count
+    );
+    
+    solution.right = buildTreeRecursive(
+        preorder,
+        inorder,
+        pStart + count + 1,
+        iStart + count + 1,
+        pEnd,
+        iEnd
+    );
+    
+    return solution;
+}
+
+
+
+public TreeNode buildTree(int[] preorder, int[] inorder) {
+    
+    int n = preorder.length;
+    
+    return buildTreeRecursive(preorder,inorder,0,0,n,n);
+}
 }
