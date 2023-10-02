@@ -15,11 +15,18 @@
  */
 class Solution {
     public int sumNumbers(TreeNode root) {
-        return sum(root,0);
+        return sumNumbersHelper(root, "");
     }
-    int sum(TreeNode node,int s){
-        if(node == null) return 0;
-        if(node.left==null && node.right==null) return s*10+node.val;
-        return sum(node.left,s*10+node.val)+sum(node.right,s*10+node.val);
+    
+    private int sumNumbersHelper(TreeNode root, String psf) {
+        if(root == null) return 0;
+        if(root.left == null && root.right == null){
+            return Integer.parseInt(psf + root.val);
+        }
+        
+        int leftSum = sumNumbersHelper(root.left, psf + root.val);
+        int rightSum = sumNumbersHelper(root.right, psf + root.val);
+        
+        return leftSum + rightSum;
     }
 }
