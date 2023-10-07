@@ -1,49 +1,62 @@
 class Trie {
-    private Node root;
-
+    
+    class Node {
+        Node [] childs;
+        boolean isEnd;
+        
+        Node(){
+            childs = new Node[26];
+            isEnd = false;
+        }
+    }
+    
+    final private Node root;
+    
     public Trie() {
         root = new Node();
     }
     
+ 
     public void insert(String word) {
-        Node pointer = root;
-        for(char c : word.toCharArray()) {
-            if(pointer.nodes.containsKey(c)) {
-                pointer = pointer.nodes.get(c);
-                continue;
-            }
+        Node curr = root;
+        
+        for(int i = 0;i<word.length();i++){
+            char ch = word.charAt(i);
             
-            Node temp = new Node();
-            pointer.nodes.put(c, temp);
-            pointer = temp;
+            if(curr.childs[ch - 'a'] == null){
+                curr.childs[ch - 'a'] = new Node();
+            }
+            curr = curr.childs[ch - 'a'];
         }
         
-        pointer.isWord = true;
+        curr.isEnd = true;
     }
     
+ 
     public boolean search(String word) {
-        Node pointer = root;
-        for(char c : word.toCharArray()) {
-            if(!pointer.nodes.containsKey(c)) return false;
-            pointer = pointer.nodes.get(c);
-        }
+        Node curr = root;
         
-        return pointer.isWord;
+        for(int i = 0;i<word.length();i++){
+            char ch = word.charAt(i);
+            
+            if(curr.childs[ch - 'a'] == null) return false;
+            curr = curr.childs[ch - 'a'];
+        }
+        return curr.isEnd;
     }
     
+  
     public boolean startsWith(String prefix) {
-        Node pointer = root;
-        for(char c : prefix.toCharArray()) {
-            if(!pointer.nodes.containsKey(c)) return false;
-            pointer = pointer.nodes.get(c);
+          Node curr = root;
+        
+        for(int i = 0;i<prefix.length();i++){
+            char ch = prefix.charAt(i);
+            
+            if(curr.childs[ch - 'a'] == null) return false;
+            curr = curr.childs[ch - 'a'];
         }
         
         return true;
-    }
-    
-    private static class Node {
-        public boolean isWord = false;
-        public Map<Character, Node> nodes = new HashMap<>();
     }
 }
 
