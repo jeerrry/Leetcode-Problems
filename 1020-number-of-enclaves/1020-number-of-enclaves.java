@@ -3,41 +3,32 @@ class Solution {
         int count = 0;
         for(int i=0; i<grid.length; i++) {
             for(int j=0; j<grid[0].length; j++) {
-                int val = grid[i][j];
-                if(val == 0) continue;
-                int res = numEnclavesHelper(grid, i, j); 
-                count += (res < 0 ? 0 : res);
+                if(i == 0 || j == 0 || i == grid.length - 1 || j == grid[0].length - 1) {
+                    numEnclavesHelper(grid, i, j);
+                }
+            }
+        }
+        
+        for(int i=0; i<grid.length; i++) {
+            for(int j=0; j<grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    count += 1;
+                }
             }
         }
         
         return count;
     }
     
-    int[][] directions = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
-    public int numEnclavesHelper(int[][] grid, int row, int col) {
-        if(row == 0 || col == 0 || row == grid.length - 1 || col == grid[0].length - 1) {
-            return grid[row][col] == 1 ? -1 : 0;
-        }
-        
-        if(grid[row][col] == 0) return 0;
+    public void numEnclavesHelper(int[][] grid, int row, int col) {        
+        if(row < 0 || col < 0 || row == grid.length || col == grid[0].length) return;
+        if(grid[row][col] == 0) return;
         
         grid[row][col] = 0;
-        int count = 1;
         
-        for(int[] directon : directions) {
-            int nrow = row + directon[0];
-            int ncol = col + directon[1];
-            
-            int res = numEnclavesHelper(grid, nrow, ncol);
-            if(res < 0) {
-                grid[row][col] = 1;
-                return -1;
-            };
-            
-            count += res;
-        }
-        
-        return count;
-
+        numEnclavesHelper(grid, row - 1, col);
+        numEnclavesHelper(grid, row, col - 1);
+        numEnclavesHelper(grid, row + 1, col);
+        numEnclavesHelper(grid, row, col + 1);
     }
 }
