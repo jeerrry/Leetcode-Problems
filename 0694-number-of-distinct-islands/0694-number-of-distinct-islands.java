@@ -1,33 +1,50 @@
 class Solution {
-    public int numDistinctIslands(int[][] grid) {
-        HashSet<String> set = new HashSet<>();
-        
-        for(int i=0; i<grid.length; i++) {
-            for(int j=0; j<grid[0].length; j++) {
-                if(grid[i][j] == 0) continue;
-                
-                var psf = new StringBuilder("s");
-                String result = dfs(grid, i, j, psf).toString();
-                set.add(result);
-            }
+    public static StringBuilder psf = new StringBuilder();
+
+  public static int numDistinctIslands(int[][] arr) {
+    if (arr == null || arr.length < 1 || arr[0].length < 1)
+      return 0;
+
+    HashSet<String> set = new HashSet<String>();
+
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = 0; j < arr[0].length; j++) {
+        psf = new StringBuilder();
+        if (arr[i][j] == 1) {
+          psf.append("o");
+          funcall(arr, i, j);
+          set.add(psf.toString());
         }
-        
-        return set.size();
+      }
     }
-    
-    
-    private StringBuilder dfs(int[][] grid, int row, int col, StringBuilder psf) {
-        if(row < 0 || col < 0 || row == grid.length || col == grid[0].length) return new StringBuilder();
-        if(grid[row][col] == 0) return new StringBuilder();
-        
-        grid[row][col] = 0;
-        
-        psf.append(dfs(grid, row, col - 1, new StringBuilder("l")));
-        psf.append(dfs(grid, row - 1, col, new StringBuilder("t")));
-        psf.append(dfs(grid, row, col + 1, new StringBuilder("r")));
-        psf.append(dfs(grid, row + 1, col, new StringBuilder("b")));
-        
-        psf.append("e");
-        return psf;
+
+    return set.size();
+  }
+
+  private static void funcall(int[][] arr, int i, int j) {
+
+    arr[i][j] = 0;
+    if (i + 1 < arr.length && arr[i + 1][j] == 1) {
+      psf.append("d");
+      funcall(arr, i + 1, j);
+
     }
+    if (i - 1 >= 0 && arr[i - 1][j] == 1) {
+      psf.append("u");
+      funcall(arr, i - 1, j);
+
+    }
+    if (j + 1 < arr[0].length && arr[i][j + 1] == 1) {
+      psf.append("r");
+      funcall(arr, i, j + 1);
+
+    }
+    if (j - 1 >= 0 && arr[i][j - 1] == 1) {
+      psf.append("l");
+      funcall(arr, i, j - 1);
+
+    }
+    psf.append("b");
+
+  }
 }
