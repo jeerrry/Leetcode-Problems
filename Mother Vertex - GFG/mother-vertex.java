@@ -40,35 +40,31 @@ class Solution
         // Code here
         Stack<Integer> stack = new Stack<>();
         boolean[] visited = new boolean[V];
-        int targetCount = 0;
         
         for(int i=0; i<V; i++) {
             if(visited[i]) continue;
             
-            targetCount += dfs(adj, visited, stack, i);
+            dfs(adj, visited, stack, i);
         }
         
         int src = stack.pop();
         visited = new boolean[V];
         stack = new Stack<>();
-        int result = dfs(adj, visited, stack, src);
+        dfs(adj, visited, stack, src);
         
         return stack.size() == V ? src : -1;
         
     }
     
-    private int dfs(ArrayList<ArrayList<Integer>> adj, boolean[] visited, Stack<Integer> stack, int src) {
-        if(visited[src]) return 0;
+    private void dfs(ArrayList<ArrayList<Integer>> adj, boolean[] visited, Stack<Integer> stack, int src) {
+        if(visited[src]) return;
         
-        int count = 1;
         visited[src] = true;
         ArrayList<Integer> edges = adj.get(src);
         for(int tar : edges) {
-            count += dfs(adj, visited, stack, tar);
+            dfs(adj, visited, stack, tar);
         }
         
         stack.add(src);
-        
-        return count;
     }
 }
