@@ -1,27 +1,26 @@
 class Solution {
     public int rob(int[] nums) {
         if(nums.length == 1) return nums[0];
-        
-        int res1 = maxRob(0, nums.length - 2, nums);
-        int res2 = maxRob(1, nums.length - 1, nums);
-        
-        return Math.max(res1, res2);
-        
+        if(nums.length == 2) return Math.max(nums[0], nums[1]);
+
+        return Math.max(houseRobber(nums, 0, nums.length - 2), houseRobber(nums, 1, nums.length - 1));
     }
     
-    private int maxRob(int start, int end, int[] src) {
-        int length = end - start + 1;
-        if(length == 1) return src[start];
+    private int houseRobber(int[] nums, int start, int end) {
+        int fir = nums[start];
+        int sec = 0;
         
-        int[] result = new int[length + 1];
-        result[start] = src[start];
-        
-        int max = 0;
         for(int i = start + 1; i<=end; i++) {
-            result[i] = Math.max(result[i - 1], i - 2 > -1 ? result[i - 2] + src[i] : src[i]);
-            max = Math.max(max, result[i]);
+            if(i == start + 1) {
+                sec = Math.max(fir, nums[i]);
+                continue;
+            }
+            
+            int result = Math.max(fir + nums[i], sec);
+            fir = sec;
+            sec = result;
         }
         
-        return max;
+        return Math.max(fir, sec);
     }
 }
