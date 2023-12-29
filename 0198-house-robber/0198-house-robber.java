@@ -2,14 +2,20 @@ class Solution {
     public int rob(int[] nums) {
         if(nums.length == 1) return nums[0];
         
-        int[] result = new int[nums.length + 1];
-        result[0] = nums[0];
-        
-        for(int i=1; i<nums.length; i++) {
-            int n2 = i - 2 < 0 ? 0 : result[i-2];
-            result[i] = Math.max(result[i-1], n2 + nums[i]);
+        int n = nums.length;
+        int[] dp = new int[n];
+        for(int i=0; i<nums.length; i++) {
+            dp[i] = nums[i];
+            if(i - 3 >= 0) {
+                dp[i] += Math.max(dp[i - 2], dp[i - 3]);
+                continue;
+            }
+            
+            if(i - 2 >=0) {
+                dp[i] += dp[i - 2];
+            }
         }
         
-        return Math.max(result[nums.length - 1], result[nums.length - 2]);
+        return Math.max(dp[n - 1], dp[n - 2]);
     }
 }
