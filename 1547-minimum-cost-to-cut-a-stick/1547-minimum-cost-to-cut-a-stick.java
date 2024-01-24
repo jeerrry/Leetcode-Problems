@@ -10,7 +10,31 @@ class Solution {
             Arrays.fill(val, -1);
         } 
         
-        return minCostHelper(nCuts, 1, cuts.length, dp);
+        return tabulation(nCuts);
+    }
+    
+    private int tabulation(int[] cuts) {
+        int n = cuts.length;
+        int c = cuts.length - 2;
+        
+        int[][] dp = new int[n + 2][n + 2];
+        for(int i=c; i >= 1; i--) {
+            for(int j = 1; j<=c; j++) {
+                if(i > j) continue;
+                int min = Integer.MAX_VALUE;
+
+                int cost = cuts[j + 1] - cuts[i - 1];
+                for(int a=i; a<=j; a++) {
+                    int cst = cost + dp[i][a - 1]
+                        + dp[a + 1][j];
+                    min = Math.min(min, cst);
+                }
+                dp[i][j] = min;
+            }
+        }
+        
+        return dp[1][c];
+        
     }
     
     private int minCostHelper(int[] cuts, int i, int j, int[][] dp) {
