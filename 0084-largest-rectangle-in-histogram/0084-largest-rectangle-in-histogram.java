@@ -11,7 +11,7 @@ class Solution {
                 
                 while(stack.size() > 0 && stack.peek()[1] > heights[i]) {
                     pop = stack.pop();
-                    int poppedArea = i - 1 - pop[0] + 1;
+                    int poppedArea = i - pop[0];
                     poppedArea *= pop[1];
                     maxHeight = Math.max(maxHeight, poppedArea);
                 }
