@@ -3,43 +3,37 @@ class Solution {
         return new int[]{findLow(nums, target), findHigh(nums, target)};
     }
     
-    public int findLow(int[] nums, int target) {
-        int idx = -1;
+    private static int findLow(int[] nums, int target) {
         int low = 0;
         int high = nums.length - 1;
-        
+        int result = -1;
         while(low <= high) {
             int mid = (low + high) / 2;
-            int value = nums[mid];
-            
-            if(value == target) idx = mid;
-            if(value >= target) {
+            if(nums[mid] >= target) {
+                result = mid;
                 high = mid - 1;
-            }else {
-                low = mid + 1;
+                continue;
             }
+            low = mid + 1;
         }
         
-        return idx;
+        return result < 0 || nums[result] != target ? -1 : result;
     }
     
-    public int findHigh(int[] nums, int target) {
-        int idx = -1;
+    private static int findHigh(int[] nums, int target) {
         int low = 0;
         int high = nums.length - 1;
-        
+        int result = -1;
         while(low <= high) {
             int mid = (low + high) / 2;
-            int value = nums[mid];
-            
-            if(value == target) idx = mid;
-            if(value <= target) {
+            if(nums[mid] <= target) {
+                result = mid;
                 low = mid + 1;
-            }else {
-                high = mid - 1;
+                continue;
             }
+            high = mid - 1;
         }
         
-        return idx;
+        return result < 0 || nums[result] != target ? -1 : result;
     }
 }
