@@ -2,7 +2,7 @@ class Solution {
     public int[] findPeakGrid(int[][] mat) {
         int low = 0;
         int high = mat[0].length - 1;
-        int[] result = {-1, -1};
+        int[] result2 = {-1, -1};
         while(low <= high) {
             int mid = (low + high) >> 1;
             int maxRow = maxColumnElement(mat, mid);
@@ -14,7 +14,7 @@ class Solution {
             else high = mid - 1;
         }
         
-        return result;
+        return result2;
     }
     
     private int maxColumnElement(int[][] mat, int col) {
