@@ -16,6 +16,8 @@ class Solution {
             int col = data[1];
             int cDiff = data[2];
             
+            if(row == n - 1 && col == m - 1) return cDiff;
+            
             for(int[] dir : dirs) {
                 int nrow = row + dir[0];
                 int ncol = col + dir[1];
