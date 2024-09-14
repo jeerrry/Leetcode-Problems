@@ -1,30 +1,23 @@
 class Solution {
-    Stack<Character> stack = new Stack<>();
-    List<String> res = new ArrayList<>();
-
     public List<String> generateParenthesis(int n) {
-        backtrack(0, 0, n);
-        return res;
+        List<String> result = new ArrayList<>();
+        backtrack(result, "", 0, 0, n);
+        
+        return result;
     }
 
-    private void backtrack(int openN, int closedN, int n) {
-        if (openN == closedN && closedN == n) {
-            Iterator vale = stack.iterator();
-            String temp = "";
-            while (vale.hasNext()) {
-                temp = temp + vale.next();
-            }
-            res.add(temp);
+    private void backtrack(List<String> result, String rsf, int left, int right, int n) {
+        if(rsf.length() ==  2 * n) {
+            result.add(rsf);
+            return;
         }
-        if (openN < n) {
-            stack.push('(');
-            backtrack(openN + 1, closedN, n);
-            stack.pop();
+        
+        if(left < n) {
+            backtrack(result, rsf + "(", left + 1, right, n);
         }
-        if (closedN < openN) {
-            stack.push(')');
-            backtrack(openN, closedN + 1, n);
-            stack.pop();
+        
+        if(left > right) {
+            backtrack(result, rsf + ")", left, right + 1, n);
         }
     }
 }
