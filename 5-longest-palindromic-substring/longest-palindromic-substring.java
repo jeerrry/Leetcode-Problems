@@ -2,39 +2,40 @@ class Solution {
     public String longestPalindrome(String s) {
         if(s.length() <= 1) return s;
 
-        int maxLen = 1;
-        String result = s.substring(0, 1);
+        int maxLen = 0;
+        int start = 0;
+        int end = 0;
 
         for(int i=0; i<s.length(); i++) {
-            for(int j=i + maxLen; j<=s.length(); j++) {
-                String sub = s.substring(i, j);
-                if(j - i > maxLen && isPalindrome(sub)) {
-                    maxLen = j - i;
-                    result = sub;
+            int[] odd = expand(s, i, i);
+            int[] even =  expand(s, i, i+1);
+
+            if(maxLen < odd[0] || maxLen < even[0]) {
+                if(odd[0] > even[0]) {
+                    maxLen = odd[0];
+                    start = odd[1];
+                    end = odd[2];
+                }else {
+                    maxLen = even[0];
+                    start = even[1];
+                    end = even[2];
                 }
             }
         }
 
-        return result;
+        return s.substring(start, end + 1);
     }
 
-    private boolean isPalindrome(String s) {
-        int p1 = 0, p2 = s.length() - 1;
-
-        while(p1 < p2) {
-            char a = s.charAt(p1);
-            char b = s.charAt(p2);
-
-            if(a == b) {
-                p1++;
-                p2--;
-
-                continue;
-            }
-
-            return false;
+    private int[] expand(String s, int i, int j) {
+        int[] range = {0 ,i, j};
+        while(i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)) {
+            range[0] = j - i + 1;
+            range[1] = i;
+            range[2] = j;
+            i--;
+            j++;
         }
 
-        return true;
+        return range;
     }
 }
