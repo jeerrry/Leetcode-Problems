@@ -1,35 +1,44 @@
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
-        List<Integer> ans = new ArrayList<>();
-        int n = s.length();
-        int m = words.length;
-        int w = words[0].length();
+        List<Integer> result = new ArrayList<>();
+        if (s.length() == 0 || words.length == 0) return result;
 
-        HashMap<String,Integer> map = new HashMap<>();
-        for(String x : words)
-        map.put(x, map.getOrDefault(x,0)+1);
+        int wordSize = words[0].length();
+        int wordCount = words.length;
+        int windowSize = wordSize * wordCount;
 
-        for(int i=0; i<w; i++){
-            HashMap<String,Integer> temp = new HashMap<>();
-            int count = 0;
-            for(int j=i,k=i; j+w <= n; j=j+w){
-                String word = s.substring(j,j+w);
-                temp.put(word,temp.getOrDefault(word,0)+1);
-                count++;
-                
-                if(count==m){
-                    if(map.equals(temp)){
-                        ans.add(k);
+        Map<String, Integer> wordFreq = new HashMap<>();
+        for (String word : words) {
+            wordFreq.put(word, wordFreq.getOrDefault(word, 0) + 1);
+        }
+
+        for (int i = 0; i < wordSize; i++) {
+            int left = i, right = i, count = 0;
+            Map<String, Integer> seen = new HashMap<>();
+
+            while (right + wordSize <= s.length()) {
+                String word = s.substring(right, right + wordSize);
+                right += wordSize;
+
+                if (wordFreq.containsKey(word)) {
+                    seen.put(word, seen.getOrDefault(word, 0) + 1);
+                    count++;
+
+                    while (seen.get(word) > wordFreq.get(word)) {
+                        String leftWord = s.substring(left, left + wordSize);
+                        seen.put(leftWord, seen.get(leftWord) - 1);
+                        left += wordSize;
+                        count--;
                     }
-                    String remove = s.substring(k,k+w);
-                    temp.computeIfPresent(remove, (a, b) -> (b > 1) ? b - 1 : null);
-                    count--;
-                    k=k+w;
-                }
-            }//inner for loop
-        }//outer for loop
-        return ans;
-    }//method
-}//class
 
-//................................................................
+                    if (count == wordCount) result.add(left);
+                } else {
+                    seen.clear();
+                    count = 0;
+                    left = right;
+                }
+            }
+        }
+        return result;
+    }
+}
