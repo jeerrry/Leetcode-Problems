@@ -10,6 +10,9 @@ class Solution {
             // all characters in s2 are matched. now reduce the window to the right-most part which has all the characters in s2
             if (count == n) {
                 int j = i;
+                // Doing this over here remove duplicates from the start...
+                // abbcdebdde -> doing validation gets the min win since the last of two
+                // bb makes it to the count.
                 while (count > 0) {
                     if (s2.charAt(count - 1) == s1.charAt(j--)) {
                         count--;
