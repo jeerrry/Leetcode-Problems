@@ -1,26 +1,17 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        char[] map = new char[128];
-        char[] map2 = new char[128];
+        var map = new int[128];
+        var map2 = new int[128];
 
-        for(int i=0; i<t.length(); i++) {
-            char one = s.charAt(i);
-            char two = t.charAt(i);
+        if(s.length() != t.length()) return false;
 
-            int i1 = one;
-            int i2 = two;
-
-            if(map[i1] > 0 && map[i1] != two) {
+        for(int i=0; i<s.length(); i++) {
+            if(map[s.charAt(i)] != map2[t.charAt(i)]) {
                 return false;
             }
 
-            if(map2[i2] > 0 && map2[i2] != one) {
-                return false;
-            }
-
-            map[i1] = two;
-            map2[i2] = one;
-
+            map[s.charAt(i)] = i + 1;
+            map2[t.charAt(i)] = i + 1;
         }
 
         return true;
