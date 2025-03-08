@@ -8,8 +8,8 @@ class Solution {
             if(set.contains(val - 1)) continue;
 
             int temp = val;
-            int llen = 1;
-            while(set.contains(temp + 1)) {
+            int llen = 0;
+            while(set.contains(temp)) {
                 temp++;
                 llen++;
             }
