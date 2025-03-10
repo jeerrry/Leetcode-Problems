@@ -5,7 +5,7 @@ class Solution {
         for(var word : words) {
             if(!map.containsKey(word)) {
                 // Check if its a subsequence
-                if(isSubseq(s, word)) {
+                if(isSubseq(s, word) || word.length() == 0) {
                     count++;
                     map.put(word, true);
                 }else {
