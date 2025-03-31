@@ -1,30 +1,47 @@
 class Solution {
-    int MOD = (int) 1e9 + 7;
+    public int sumSubarrayMins(int[] arr) {
+        var pse = pse(arr);
+        var nse = nse(arr);
+        var mod = (int) (1e9 + 7);
 
-    private int getElement(int[] arr, int n, int i) {
-        return (i == -1 || i == n) ? Integer.MIN_VALUE : arr[i];
+        int result = 0;
+        for(int i=0; i<arr.length; i++) {
+            int left = i - pse[i];
+            int right = nse[i] - i;
+
+            result = (int) ((result + (1L * left * right % mod) * arr[i] % mod) % mod);
+        }
+
+        return result;
     }
 
-    public int sumSubarrayMins(int[] arr) {
-        int n = arr.length;
-        long ans = 0;
-        // Deque is faster than Stack
-        Deque<Integer> stack = new LinkedList<>();
-
-        // 2 sentinels: set arr[-1] & arr[n] as MIN_VALUE
-        for (int i = -1; i <= n; i++) {
-            // Find left closest element, e <= A[i]
-            while (!stack.isEmpty() && getElement(arr, n, stack.peek()) > getElement(arr, n, i)) {
-                // for each stack.pop(),
-                // i is its right boundary and stack.peek() is left boundary.
-                int currIdx = stack.pop();
-                int left = stack.peek(), right = i;
-                // calculate contribution
-                ans = (ans + (long) (currIdx - left) * (right - currIdx) * arr[currIdx]) % MOD;
+    private int[] nse(int[] arr) {
+        var stack = new Stack<Integer>();
+        var result = new int[arr.length];
+        for(int i=arr.length - 1; i>=0; i--) {
+            while(!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
             }
+
+            result[i] = stack.isEmpty() ? arr.length : stack.peek();
             stack.push(i);
         }
 
-        return (int) ans;
+        return result;
+    }
+
+    private int[] pse(int[] arr) {
+        var stack = new Stack<Integer>();
+        var result = new int[arr.length];
+        for(int i=0; i<arr.length; i++) {
+            while(!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+                stack.pop();
+            }
+
+            result[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+
+        return result;
     }
 }
