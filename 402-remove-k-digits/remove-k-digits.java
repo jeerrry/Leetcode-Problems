@@ -20,8 +20,9 @@ class Solution {
         }
 
         var result = new StringBuilder();
-        while(!stack.isEmpty()) result.insert(0,stack.pop());
-
+        while(!stack.isEmpty()) result.append(stack.pop());
+        result.reverse();
+        
         while(result.length() > 0 && result.charAt(0) == '0') result.deleteCharAt(0);
         return result.length() == 0 ? "0" : result.toString();
     }
