@@ -9,7 +9,7 @@ class Solution {
         
         while(low <= high) {
             int mid = (low + high) / 2;
-            int count = minSum(nums, mid);
+            int count = getMinSum(nums, mid);
             if(count > k) {
                 low = mid + 1;
             }else {
@@ -20,7 +20,7 @@ class Solution {
         return low;
     }
     
-    private int minSum(int[] nums, int target) {
+    private int getMinSum(int[] nums, int target) {
         int count = 1;
         int sum = 0;
         for(int val : nums) {
